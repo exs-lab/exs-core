@@ -14,7 +14,6 @@ classifiers = [
     "Operating System :: POSIX :: Linux",
 ]
 dependencies = [
-    "ignis @ git+https://git@github.com/ignis-sh/ignis.git",
     "pillow>=12.2.0",
     "psutil>=7.2.2",
     "pygobject>=3.56.2",
