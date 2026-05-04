@@ -1,0 +1,33 @@
+[project]
+name = "exs-core"
+version = "0.0.1"
+description = "A library for exs-shell and plugins"
+readme = { file = "README.md", content-type = "text/markdown" }
+authors = [{name = "kipoha", email = "kipoha.core@gmail.com"}]
+requires-python = ">=3.12"
+keywords = ["linux", "linux-desktop", "linux-desktop-shell", "desktop", "shell"]
+license = { text = "GPL-3.0-only" }
+classifiers = [
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Linux :: Desktop",
+    "Linux :: Desktop-Shell",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "ignis @ git+https://git@github.com/ignis-sh/ignis.git",
+    "pillow>=12.2.0",
+    "psutil>=7.2.2",
+    "pygobject>=3.56.2",
+    "pygobject-stubs>=2.17.0",
+    "requests>=2.33.1",
+]
+
+[tool.uv.sources]
+ignis = { git = "https://github.com/ignis-sh/ignis.git" }
+
+
+[project.urls]
+Homepage = "https://github.com/exs-lab/exs-core"
+Source = "https://github.com/exs-lab/exs-core"
+Issues = "https://github.com/exs-lab/exs-core/issues"
