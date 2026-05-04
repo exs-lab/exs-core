@@ -9,10 +9,9 @@ keywords = ["linux", "linux-desktop", "linux-desktop-shell", "desktop", "shell"]
 license = { text = "GPL-3.0-only" }
 classifiers = [
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
-    "Linux :: Desktop",
-    "Linux :: Desktop-Shell",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.12",
+    "Operating System :: POSIX :: Linux",
 ]
 dependencies = [
     "ignis @ git+https://git@github.com/ignis-sh/ignis.git",
