@@ -2,6 +2,7 @@ from enum import StrEnum
 
 
 class UIIcons(StrEnum):
+    EXTENSION = "extension"
     WINDOW_CLOSE = "close"
     MONITOR_HEART = "monitor_heart"
     MENU = "menu"
