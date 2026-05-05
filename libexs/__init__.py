@@ -2,7 +2,7 @@
 Core Library for exs-shell and plugin
 """
 
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 __author__ = "kipoha"  # only github usernames
 
 
@@ -15,6 +15,8 @@ except ImportError:
     )
 
 
+from libexs._core import classproperty
+from libexs._state import State
 from libexs import utils, register, widgets, settings
 
 __all__ = [
@@ -22,4 +24,6 @@ __all__ = [
     "register",
     "widgets",
     "settings",
+    "State",
+    "classproperty",
 ]
