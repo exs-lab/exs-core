@@ -210,7 +210,7 @@ def DialogRow[_T](
             Box(
                 hexpand=True,
                 halign="fill",
-                css_classes=["settings-row-dialog-content"],
+                css_classes=["settings-row-dialog-content-child"],
                 child=child,
             )
         ],
