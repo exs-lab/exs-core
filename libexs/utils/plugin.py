@@ -43,6 +43,8 @@ def check(path: Path, strict: bool = False) -> Path | None:
     """
     src = path / path.name
     if not path.is_dir() or not src.exists():
+        if strict:
+            raise ValueError(f"{path.name}: not a directory or src not found")
         return None
     if path.name.startswith((".", "_")):
         return None
@@ -114,6 +116,8 @@ def load(path: Path) -> None:
     Load a plugin
     """
     valid_path = check(path, True)
+    if not valid_path:
+        return
     src = valid_path / valid_path.name
     install_deps(valid_path)
     sys.path.insert(0, str(valid_path))
