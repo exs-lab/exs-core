@@ -34,10 +34,12 @@ def install_deps(plugin_path: Path) -> None:
 
 
 @overload
-def check(path: Path, strict: Literal[True]) -> Path: ...
+def check(path: Path, strict: Literal[True]) -> tuple[Path, str | None]: ...
 @overload
-def check(path: Path, strict: Literal[False] = ...) -> Path | None: ...
-def check(path: Path, strict: bool = False) -> Path | None:
+def check(
+    path: Path, strict: Literal[False] = ...
+) -> tuple[Path, str | None] | None: ...
+def check(path: Path, strict: bool = False) -> tuple[Path, str | None] | None:
     """
     Check if path is a valid plugin
     """
@@ -68,7 +70,7 @@ def check(path: Path, strict: bool = False) -> Path | None:
             raise ValueError(f"{path.name} is not an exs-shell plugin")
         return None
 
-    return path
+    return path, meta.get("plugin", {}).get("name")
 
 
 def apply_css(path: Path) -> None:
@@ -115,9 +117,10 @@ def load(path: Path) -> None:
     """
     Load a plugin
     """
-    valid_path = check(path, True)
-    if not valid_path:
+    data = check(path, True)
+    if not data:
         return
+    valid_path, _ = data
     src = valid_path / valid_path.name
     install_deps(valid_path)
     sys.path.insert(0, str(valid_path))
