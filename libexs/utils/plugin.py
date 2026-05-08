@@ -34,32 +34,26 @@ def install_deps(plugin_path: Path) -> None:
 
 
 @overload
-def check(path: Path, strict: Literal[True]) -> tuple[Path, str | None]: ...
+def check(path: Path, strict: Literal[True]) -> tuple[Path, str, str]: ...
 @overload
-def check(
-    path: Path, strict: Literal[False] = ...
-) -> tuple[Path, str | None] | None: ...
-def check(path: Path, strict: bool = False) -> tuple[Path, str | None] | None:
+def check(path: Path, strict: Literal[False] = ...) -> tuple[Path, str, str] | None: ...
+def check(path: Path, strict: bool = False) -> tuple[Path, str, str] | None:
     """
     Check if path is a valid plugin
     """
-    src = path / path.name
-    if not path.is_dir() or not src.exists():
+    if not path.is_dir():
         if strict:
-            raise ValueError(f"{path.name}: not a directory or src not found")
+            raise ValueError(f"{path.name}: not a directory")
         return None
     if path.name.startswith((".", "_")):
         return None
 
     toml_file = path / "plugin.toml"
-    init_file = src / "__init__.py"
     pyproject = path / "pyproject.toml"
 
-    if not toml_file.exists() or not init_file.exists() or not pyproject.exists():
+    if not toml_file.exists() or not pyproject.exists():
         if strict:
-            raise ValueError(
-                f"{path.name}: missing plugin.toml or __init__.py or pyproject.toml"
-            )
+            raise ValueError(f"{path.name}: missing plugin.toml or pyproject.toml")
         return None
 
     with open(toml_file, "rb") as f:
@@ -70,7 +64,16 @@ def check(path: Path, strict: bool = False) -> tuple[Path, str | None] | None:
             raise ValueError(f"{path.name} is not an exs-shell plugin")
         return None
 
-    return path, meta.get("plugin", {}).get("name")
+    plugin_meta = meta.get("plugin", {})
+    module_name = plugin_meta.get("module") or path.name
+    src = path / module_name
+
+    if not (src / "__init__.py").exists():
+        if strict:
+            raise ValueError(f"{path.name}: missing {module_name}/__init__.py")
+        return None
+
+    return path, plugin_meta.get("name") or path.name, module_name
 
 
 def apply_css(path: Path) -> None:
@@ -120,8 +123,8 @@ def load(path: Path) -> None:
     data = check(path, True)
     if not data:
         return
-    valid_path, _ = data
-    src = valid_path / valid_path.name
+    valid_path, _, m = data
+    src = valid_path / m
     install_deps(valid_path)
     sys.path.insert(0, str(valid_path))
     spec = importlib.util.spec_from_file_location(
