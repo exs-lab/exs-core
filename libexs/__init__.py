@@ -2,7 +2,7 @@
 Core Library for exs-shell and plugin
 """
 
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 __author__ = "kipoha"  # only github usernames
 
 
