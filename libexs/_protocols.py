@@ -1,5 +1,7 @@
 from typing import Protocol, runtime_checkable
 
+from libexs.widgets.window import Revealer, RevealerWindow, Window
+
 
 @runtime_checkable
 class SupportsVisibility(Protocol):
@@ -14,22 +16,26 @@ class SupportsVisibility(Protocol):
 
 class HasRevealer(Protocol):
     @property
-    def revealer(self) -> ...: ...
+    def revealer(self) -> Revealer: ...
     @revealer.setter
-    def revealer(self, value: ...): ...
+    def revealer(self, value: Revealer): ...
 
 
-class HasWindow(Protocol):
+class HasWindow[_W](Protocol):
     @property
-    def window(self) -> ...: ...
+    def window(self) -> _W: ...
 
 
-class IWindow(HasWindow, SupportsVisibility, Protocol): ...
+class IWindow(HasWindow[Window], SupportsVisibility, Protocol): ...
 
 
 class IRevealerWindow(
     SupportsVisibility,
     HasRevealer,
-    HasWindow,
+    HasWindow[RevealerWindow],
     Protocol,
 ): ...
+
+
+class FileGTKObjProtocol(Protocol):
+    def get_path(self) -> str: ...

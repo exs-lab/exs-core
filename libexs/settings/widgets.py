@@ -20,11 +20,10 @@ from ignis.widgets import (
     SpinButton,
 )
 
+from libexs import gen_namespace
+from libexs._protocols import FileGTKObjProtocol
 from libexs.enums.icons import Icons
 from libexs.widgets.icon import Icon
-
-
-NAMESPACE = "libexs.settings"
 
 
 class CategoryLabel(Box):
@@ -183,7 +182,7 @@ def DialogRow[_T](
             c.set_on_accept(lambda _: on_accept_in())
 
     dialog_window = RegularWindow(
-        f"{NAMESPACE}_dialog_window_{uuid4()}",
+        gen_namespace("dialog", "window", str(uuid4())),
         css_classes=["settings-dialog-window"],
         visible=False,
         default_height=200,
@@ -212,7 +211,7 @@ def DialogRow[_T](
                 halign="fill",
                 css_classes=["settings-row-dialog-content-child"],
                 child=child,
-            )
+            ),
         ],
     )
 
@@ -271,10 +270,6 @@ def DialogRow[_T](
         on_click=on_click,
         **kwargs,
     )
-
-
-class FileGTKObjProtocol(Protocol):
-    def get_path(self) -> str: ...
 
 
 def FileDialogRow(

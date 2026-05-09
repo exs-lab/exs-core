@@ -15,9 +15,9 @@ except ImportError:
     )
 
 
-from libexs._core import classproperty
+from libexs._core import classproperty, core_property
 from libexs._state import State
-from libexs import utils, register, widgets, settings
+from libexs import utils, register, widgets, settings, _types as core_types
 
 __all__ = [
     "utils",
@@ -26,4 +26,13 @@ __all__ = [
     "settings",
     "State",
     "classproperty",
+    "core_types",
+    "core_property",
+    "gen_namespace",
 ]
+
+NAMESPACE_PREFIX = "libexs"
+
+
+def gen_namespace(*args: str) -> str:
+    return ".".join([NAMESPACE_PREFIX] + list(args))

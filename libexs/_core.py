@@ -1,10 +1,18 @@
 from collections.abc import Callable
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 
-class classproperty[R]:
-    def __init__(self, func: Callable[..., R]) -> None:
-        self.func: Callable[[type[Any]], R] = func
+if TYPE_CHECKING:
+    core_property = property
+else:
+    from ignis.gobject import IgnisProperty
 
-    def __get__(self, _: Any, cls: type[Any]) -> R:
+    core_property = IgnisProperty
+
+
+class classproperty[_R]:
+    def __init__(self, func: Callable[..., _R]) -> None:
+        self.func: Callable[[type[Any]], _R] = func
+
+    def __get__(self, _: Any, cls: type[Any]) -> _R:
         return self.func(cls)

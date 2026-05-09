@@ -10,6 +10,7 @@ from ignis.base_service import BaseService
 from ignis.css_manager import CssInfoPath, CssManager
 
 from libexs import State
+from libexs.exceptions.plugin import PluginLoadError, PluginValidationError
 from libexs.settings.base import BaseCategory
 
 
@@ -43,7 +44,7 @@ def check(path: Path, strict: bool = False) -> tuple[Path, str, str] | None:
     """
     if not path.is_dir():
         if strict:
-            raise ValueError(f"{path.name}: not a directory")
+            raise PluginValidationError(path.name, "not a directory")
         return None
     if path.name.startswith((".", "_")):
         return None
@@ -53,7 +54,9 @@ def check(path: Path, strict: bool = False) -> tuple[Path, str, str] | None:
 
     if not toml_file.exists() or not pyproject.exists():
         if strict:
-            raise ValueError(f"{path.name}: missing plugin.toml or pyproject.toml")
+            raise PluginValidationError(
+                path.name, "missing plugin.toml or pyproject.toml"
+            )
         return None
 
     with open(toml_file, "rb") as f:
@@ -61,7 +64,7 @@ def check(path: Path, strict: bool = False) -> tuple[Path, str, str] | None:
 
     if meta.get("plugin", {}).get("shell") != "exs-shell":
         if strict:
-            raise ValueError(f"{path.name} is not an exs-shell plugin")
+            raise PluginValidationError(path.name, "is not an exs-shell plugin")
         return None
 
     plugin_meta = meta.get("plugin", {})
@@ -70,7 +73,7 @@ def check(path: Path, strict: bool = False) -> tuple[Path, str, str] | None:
 
     if not (src / "__init__.py").exists():
         if strict:
-            raise ValueError(f"{path.name}: missing {module_name}/__init__.py")
+            raise PluginValidationError(path.name, f"missing {module_name}/__init__.py")
         return None
 
     return path, plugin_meta.get("name") or path.name, module_name
@@ -120,23 +123,26 @@ def load(path: Path) -> None:
     """
     Load a plugin
     """
-    data = check(path, True)
-    if not data:
-        return
-    valid_path, _, m = data
-    src = valid_path / m
-    install_deps(valid_path)
-    sys.path.insert(0, str(valid_path))
-    spec = importlib.util.spec_from_file_location(
-        valid_path.name,
-        src / "__init__.py",
-        submodule_search_locations=[str(src)],
-    )
+    try:
+        data = check(path, True)
+        if not data:
+            return
+        valid_path, _, m = data
+        src = valid_path / m
+        install_deps(valid_path)
+        sys.path.insert(0, str(valid_path))
+        spec = importlib.util.spec_from_file_location(
+            valid_path.name,
+            src / "__init__.py",
+            submodule_search_locations=[str(src)],
+        )
 
-    if spec:
-        mod = importlib.util.module_from_spec(spec)
-        sys.modules[valid_path.name] = mod
-        if loader := spec.loader:
-            loader.exec_module(mod)
-            if hasattr(mod, "init"):
-                mod.init()
+        if spec:
+            mod = importlib.util.module_from_spec(spec)
+            sys.modules[valid_path.name] = mod
+            if loader := spec.loader:
+                loader.exec_module(mod)
+                if hasattr(mod, "init"):
+                    mod.init()
+    except Exception as e:
+        raise PluginLoadError(path.name, e)
