@@ -20,9 +20,9 @@ from ignis.widgets import (
     SpinButton,
 )
 
-from libexs import gen_namespace
 from libexs.protocols import FileGTKObjProtocol
 from libexs.enums.icons import Icons
+from libexs.utils.namespace import gen_namespace
 from libexs.widgets.icon import Icon
 
 

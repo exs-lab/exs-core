@@ -1,6 +1,6 @@
 [project]
 name = "exs-core"
-version = "0.1.4"
+version = "0.1.5"
 description = "A library for exs-shell and plugins"
 readme = { file = "README.md", content-type = "text/markdown" }
 authors = [{name = "kipoha", email = "kipoha.core@gmail.com"}]

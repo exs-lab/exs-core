@@ -7,11 +7,11 @@ from ignis.widgets import (
     Revealer as IgnisRevealer,
 )
 
-from libexs import gen_namespace
 from libexs._core import coreproperty
 from libexs.types import Anchor
 from libexs.enums.gtk.transitions import RevealerTransition
 from libexs.enums.gtk.windows import Layer, KeyboardMode, Exclusivity
+from libexs.utils.namespace import gen_namespace
 
 
 class Window(IgnisWindow):

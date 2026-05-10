@@ -2,7 +2,7 @@
 Core Library for exs-shell and plugin
 """
 
-__version__ = "0.1.4"
+__version__ = "0.1.5"
 __author__ = "kipoha"  # only github usernames
 
 
@@ -28,11 +28,4 @@ __all__ = [
     "classproperty",
     "core_types",
     "coreproperty",
-    "gen_namespace",
 ]
-
-NAMESPACE_PREFIX = "libexs"
-
-
-def gen_namespace(*args: str) -> str:
-    return ".".join([NAMESPACE_PREFIX] + list(args))
