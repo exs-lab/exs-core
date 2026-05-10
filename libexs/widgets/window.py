@@ -8,8 +8,8 @@ from ignis.widgets import (
 )
 
 from libexs import gen_namespace
-from libexs._core import core_property
-from libexs._types import Anchor
+from libexs._core import coreproperty
+from libexs.types import Anchor
 from libexs.enums.gtk.transitions import RevealerTransition
 from libexs.enums.gtk.windows import Layer, KeyboardMode, Exclusivity
 
@@ -92,7 +92,7 @@ class BaseRevealerWindow(Window):
         else:
             super().set_property(property_name, value)
 
-    @core_property
+    @coreproperty
     def visible(self) -> bool:
         return any(r.reveal_child for r in self._revealers)
 
@@ -100,7 +100,7 @@ class BaseRevealerWindow(Window):
     def visible(self, value: bool) -> None:
         super().set_visible(value)
 
-    @core_property
+    @coreproperty
     def revealers(self) -> list[Revealer]:
         """
         An instance of :class:`~ignis.widgets.Revealer`.

@@ -5,9 +5,9 @@ from typing import Callable
 from gi.repository import GLib
 
 from libexs.register.events.base import F
-from libexs._types import AnyDict, AnyList
+from libexs.types import AnyDict, AnyList
 from libexs.register.deco import add_post_init, run_method_handler
-from libexs._schemas import Command
+from libexs.schemas import Command
 from libexs._state import State
 
 

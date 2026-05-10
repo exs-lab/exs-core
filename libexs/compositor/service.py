@@ -1,7 +1,7 @@
 from collections.abc import Sequence
 from ignis.base_service import BaseService
 
-from libexs._core import core_property
+from libexs._core import coreproperty
 from libexs.compositor.abc_core import (
     CompositorInterface,
     CompositorMonitor,
@@ -18,27 +18,27 @@ class CompositorService(BaseService):
         self._compositor.on_window_focused(self._on_window_focused)
         self._compositor.on_layout_changed(self._on_layout_changed)
 
-    @core_property
+    @coreproperty
     def compositor_name(self) -> str:
         return self._compositor.compositor_name
 
-    @core_property
+    @coreproperty
     def workspaces(self) -> Sequence[CompositorWorkspace]:
         return self._compositor.workspaces()
 
-    @core_property
+    @coreproperty
     def windows(self) -> Sequence[CompositorWindow]:
         return self._compositor.windows()
 
-    @core_property
+    @coreproperty
     def monitors(self) -> Sequence[CompositorMonitor]:
         return self._compositor.monitors()
 
-    @core_property
+    @coreproperty
     def active_monitor(self) -> CompositorMonitor:
         return self._compositor.active_monitor()
 
-    @core_property
+    @coreproperty
     def active_keyboard_layout(self) -> str:
         return self._compositor.active_keyboard_layout
 

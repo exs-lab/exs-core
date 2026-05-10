@@ -1,5 +1,5 @@
 from libexs._state import State
-from libexs._types import AnyDict
+from libexs.types import AnyDict
 from libexs.register.cmd import command, commands
 from libexs.register.deco import add_post_init
 from libexs.register.events import event

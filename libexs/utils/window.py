@@ -1,4 +1,4 @@
-from libexs._protocols import IWindow
+from libexs.protocols import IWindow
 from libexs._state import State
 
 

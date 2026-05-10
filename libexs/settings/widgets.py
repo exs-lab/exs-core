@@ -21,7 +21,7 @@ from ignis.widgets import (
 )
 
 from libexs import gen_namespace
-from libexs._protocols import FileGTKObjProtocol
+from libexs.protocols import FileGTKObjProtocol
 from libexs.enums.icons import Icons
 from libexs.widgets.icon import Icon
 

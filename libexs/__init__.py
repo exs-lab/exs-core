@@ -15,9 +15,9 @@ except ImportError:
     )
 
 
-from libexs._core import classproperty, core_property
+from libexs._core import classproperty, coreproperty
 from libexs._state import State
-from libexs import utils, register, widgets, settings, _types as core_types
+from libexs import utils, register, widgets, settings, types as core_types
 
 __all__ = [
     "utils",
@@ -27,7 +27,7 @@ __all__ = [
     "State",
     "classproperty",
     "core_types",
-    "core_property",
+    "coreproperty",
     "gen_namespace",
 ]
 

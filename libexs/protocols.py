@@ -1,4 +1,4 @@
-from typing import Protocol, runtime_checkable
+from typing import Any, ClassVar, Protocol, runtime_checkable
 
 from libexs.widgets.window import Revealer, RevealerWindow, Window
 
@@ -39,3 +39,7 @@ class IRevealerWindow(
 
 class FileGTKObjProtocol(Protocol):
     def get_path(self) -> str: ...
+
+
+class DataclassInstance(Protocol):
+    __dataclass_fields__: ClassVar[dict[str, Any]]

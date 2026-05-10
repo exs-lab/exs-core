@@ -4,7 +4,7 @@ from typing import Any
 from ignis.utils import exec_sh, get_monitor, get_n_monitors, get_monitors
 
 from libexs import register
-from libexs._types import AnyDict
+from libexs.types import AnyDict
 
 BASE_WIDTH = 1920
 BASE_HEIGHT = 1080

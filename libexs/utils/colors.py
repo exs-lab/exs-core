@@ -1,4 +1,4 @@
-from libexs._types import HEX, RGB, RGBA
+from libexs.types import HEX, RGB, RGBA
 
 
 def hex_to_rgb(hex_color: str) -> RGB:

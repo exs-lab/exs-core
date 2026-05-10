@@ -7,7 +7,7 @@ from typing import Any
 
 import psutil
 
-from libexs._types import ProcessSortBy, SystemSizeUnit
+from libexs.types import ProcessSortBy, SystemSizeUnit
 
 
 SIZE_MULTIPLIERS = {

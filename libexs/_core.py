@@ -3,11 +3,11 @@ from typing import TYPE_CHECKING, Any
 
 
 if TYPE_CHECKING:
-    core_property = property
+    coreproperty = property
 else:
     from ignis.gobject import IgnisProperty
 
-    core_property = IgnisProperty
+    coreproperty = IgnisProperty
 
 
 class classproperty[_R]:

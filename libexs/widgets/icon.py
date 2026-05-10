@@ -3,7 +3,8 @@ from typing import Any
 from ignis.base_widget import BaseWidget
 from ignis.widgets import Label
 
-from libexs._types import IconSize, IconType
+from libexs._core import coreproperty
+from libexs.types import IconSize, IconType
 
 
 class Icon(Label):
@@ -76,7 +77,7 @@ class Icon(Label):
         self.add_css_class(self._size)
         self.add_css_class(self._type.lower())
 
-    @property
+    @coreproperty
     def size(self):
         return self._size
 
@@ -85,7 +86,7 @@ class Icon(Label):
         self._size = value
         self._apply_classes()
 
-    @property
+    @coreproperty
     def type(self):
         return self._type
 

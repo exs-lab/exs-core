@@ -1,7 +1,7 @@
 from ignis.widgets import CenterBox, Box, EventBox
 
 from libexs import register
-from libexs._schemas import WindowEntity
+from libexs.schemas import WindowEntity
 from libexs.utils.monitor import get_active_monitor, get_monitor_scale
 from libexs.widgets.window import Revealer, RevealerWindow, Window
 

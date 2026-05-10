@@ -1,6 +1,6 @@
 from subprocess import run
 
-from libexs._schemas import ClipboardItem
+from libexs.schemas import ClipboardItem
 
 
 def get_clipboard_history(limit: int = 50) -> list[ClipboardItem]:

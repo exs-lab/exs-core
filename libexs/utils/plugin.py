@@ -10,6 +10,7 @@ from ignis.base_service import BaseService
 from ignis.css_manager import CssInfoPath, CssManager
 
 from libexs import State
+from libexs.schemas import PluginEntity
 from libexs.exceptions.plugin import PluginLoadError, PluginValidationError
 from libexs.settings.base import BaseCategory
 
@@ -35,10 +36,10 @@ def install_deps(plugin_path: Path) -> None:
 
 
 @overload
-def check(path: Path, strict: Literal[True]) -> tuple[Path, str, str]: ...
+def check(path: Path, strict: Literal[True]) -> PluginEntity: ...
 @overload
-def check(path: Path, strict: Literal[False] = ...) -> tuple[Path, str, str] | None: ...
-def check(path: Path, strict: bool = False) -> tuple[Path, str, str] | None:
+def check(path: Path, strict: Literal[False] = ...) -> PluginEntity | None: ...
+def check(path: Path, strict: bool = False) -> PluginEntity | None:
     """
     Check if path is a valid plugin
     """
@@ -76,7 +77,13 @@ def check(path: Path, strict: bool = False) -> tuple[Path, str, str] | None:
             raise PluginValidationError(path.name, f"missing {module_name}/__init__.py")
         return None
 
-    return path, plugin_meta.get("name") or path.name, module_name
+    return PluginEntity(
+        path=path,
+        name=plugin_meta.get("name") or path.name,
+        version=plugin_meta.get("version") or "0.0.0",
+        module_name=module_name,
+        dependencies=plugin_meta.get("dependencies", []),
+    )
 
 
 def apply_css(path: Path) -> None:
@@ -124,22 +131,21 @@ def load(path: Path) -> None:
     Load a plugin
     """
     try:
-        data = check(path, True)
-        if not data:
+        pl = check(path, True)
+        if not pl:
             return
-        valid_path, _, m = data
-        src = valid_path / m
-        install_deps(valid_path)
-        sys.path.insert(0, str(valid_path))
+        src = pl.path / pl.module_name
+        install_deps(pl.path)
+        sys.path.insert(0, str(pl.path))
         spec = importlib.util.spec_from_file_location(
-            valid_path.name,
+            pl.path.name,
             src / "__init__.py",
             submodule_search_locations=[str(src)],
         )
 
         if spec:
             mod = importlib.util.module_from_spec(spec)
-            sys.modules[valid_path.name] = mod
+            sys.modules[pl.path.name] = mod
             if loader := spec.loader:
                 loader.exec_module(mod)
                 if hasattr(mod, "init"):

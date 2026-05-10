@@ -5,7 +5,7 @@ from gi.repository import Gtk
 from ignis.utils import Poll
 from ignis.options_manager import OptionsGroup, OptionsManager
 
-from libexs._types import CavaOutput
+from libexs.types import CavaOutput
 from libexs.register.events.base import _base_connector, EventDeco
 from libexs._state import State
 

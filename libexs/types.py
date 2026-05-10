@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Literal
 
 if TYPE_CHECKING:
-    from libexs._schemas import Command
+    from libexs.schemas import Command
 
 
 type Anchor = Literal["left", "right", "top", "bottom"]
